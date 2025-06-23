@@ -11,4 +11,10 @@
     <PackageReference Include="Htmx.TagHelpers" Version="1.8.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="..\libman.json">
+      <Link>libman.json</Link>
+    </Content>
+  </ItemGroup>
+
 </Project>
