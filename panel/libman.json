@@ -14,7 +14,7 @@
       "library": "jquery@3.7.1",
       "destination": "App/wwwroot/lib/jquery/dist",
       "files": [
-        "jquery.js",
+        "jquery.min.js",
         "jquery.slim.js"
       ]
     },
