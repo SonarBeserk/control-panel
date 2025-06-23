@@ -1,12 +1,11 @@
 using Grpc.Core;
-using Service;
 
-namespace Service.Services;
+namespace Example.Services;
 
-public class GreeterService : Greeter.GreeterBase
+public class ExampleService : Example.ExampleBase
 {
-    private readonly ILogger<GreeterService> _logger;
-    public GreeterService(ILogger<GreeterService> logger)
+    private readonly ILogger<ExampleService> _logger;
+    public ExampleService(ILogger<ExampleService> logger)
     {
         _logger = logger;
     }

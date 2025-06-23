@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-option csharp_namespace = "Service";
+option csharp_namespace = "Example";
 
-package greet;
+package example;
 
 // The greeting service definition.
-service Greeter {
+service Example {
   // Sends a greeting
   rpc SayHello (HelloRequest) returns (HelloReply);
 }
