@@ -32,6 +32,13 @@
       "files": [
         "jquery.validate.unobtrusive.js"
       ]
+    },
+    {
+      "library": "htmx@2.0.5",
+      "destination": "App/wwwroot/lib/htmx/dist",
+      "files": [
+        "htmx.min.js"
+      ]
     }
   ]
 }
