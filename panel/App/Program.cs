@@ -1,9 +1,21 @@
+using App;
 using Htmx.TagHelpers;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+// Register AppSettings
+builder.Services.AddOptions<AppSettings>()
+    .BindConfiguration(string.Empty)
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
+// Delegate the settings resolver so the IOptions call is not required
+builder.Services.AddSingleton(resolver =>
+    resolver.GetRequiredService<IOptions<AppSettings>>().Value);
 
 var app = builder.Build();
 
