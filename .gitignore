@@ -108,17 +108,17 @@ cmake-build-*/
 out/
 
 # mpeltonen/sbt-idea plugin
-.idea_modules/
+**/.idea_modules/
 
 # JIRA plugin
 atlassian-ide-plugin.xml
 
 # Cursive Clojure plugin
-.idea/replstate.xml
+**/.idea/replstate.xml
 
 # SonarLint plugin
-.idea/sonarlint/
-.idea/sonarlint.xml # see https://community.sonarsource.com/t/is-the-file-idea-idea-idea-sonarlint-xml-intended-to-be-under-source-control/121119
+**/.idea/sonarlint/
+**/.idea/sonarlint.xml # see https://community.sonarsource.com/t/is-the-file-idea-idea-idea-sonarlint-xml-intended-to-be-under-source-control/121119
 
 # Crashlytics plugin (for Android Studio and IntelliJ)
 com_crashlytics_export_strings.xml
@@ -127,12 +127,15 @@ crashlytics-build.properties
 fabric.properties
 
 # Editor-based HTTP Client
-.idea/httpRequests
+**/.idea/httpRequests
 http-client.private.env.json
 
 # Android studio 3.1+ serialized cache file
-.idea/caches/build_file_checksums.ser
+**/.idea/caches/build_file_checksums.ser
 
 # Apifox Helper cache
-.idea/.cache/.Apifox_Helper
-.idea/ApifoxUploaderProjectSetting.xml
+**/.idea/.cache/.Apifox_Helper
+**/.idea/ApifoxUploaderProjectSetting.xml
+
+# User files
+*.DotSettings.user
