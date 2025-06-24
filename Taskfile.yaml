@@ -1,0 +1,25 @@
+version: '3'
+
+tasks:
+  # Panel Commands
+  build-panel:
+    dir: '{{.USER_WORKING_DIR}}/panel/App'
+    cmds:
+      - dotnet build
+  watch-panel:
+    dir: '{{.USER_WORKING_DIR}}/panel/App'
+    cmds:
+      - dotnet watch
+  libman-restore:
+    dir: '{{.USER_WORKING_DIR}}/panel'
+    cmds:
+      - libman restore
+  # Example Service Commands
+  watch-example:
+    dir: '{{.USER_WORKING_DIR}}/example/Example'
+    cmds:
+      - dotnet watch
+  build-example:
+    dir: '{{.USER_WORKING_DIR}}/example/Example'
+    cmds:
+      - dotnet build
