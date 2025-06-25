@@ -10,11 +10,16 @@ public class ExampleService : Example.ExampleBase
         _logger = logger;
     }
 
-    public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
+    public override Task<HelloResponse> SayHello(HelloRequest request, ServerCallContext context)
     {
-        return Task.FromResult(new HelloReply
+        return Task.FromResult(new HelloResponse()
         {
             Message = "Hello " + request.Name
         });
+    }
+
+    public override Task<GetStatsResponse> GetStats(GetStatsRequest request, ServerCallContext context)
+    {
+        return Task.FromResult(new GetStatsResponse() { });
     }
 }
