@@ -139,3 +139,6 @@ http-client.private.env.json
 
 # User files
 *.DotSettings.user
+
+# Data Files
+**/*.db
