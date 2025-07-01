@@ -12,16 +12,34 @@
 // limitations under the License.
 
 using Example.Services;
+using Microsoft.Data.Sqlite;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
 
+// Handle dependency injection
+builder.Services.AddSingleton<SqliteConnection>(_ =>
+{
+    var sqlSetting = builder.Configuration.GetConnectionString("sqlite");
+    if (string.IsNullOrWhiteSpace(sqlSetting))
+    {
+        throw new InvalidOperationException("Database connection string is missing or invalid");
+    }
+
+    var conn = new SqliteConnection(sqlSetting);
+    conn.Open(); // Open long-running connection to save memory and io calls
+    return conn;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.MapGrpcService<ExampleService>();
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+
+// Migrate the database
+SqlService.UpdateSchema(builder.Configuration.GetConnectionString("sqlite") ?? string.Empty);
 
 app.Run();
