@@ -83,14 +83,18 @@ public static class SqlService
         var sqlFolderFiles = Directory.GetFiles(SqlMigrationsPath);
         foreach (var filePath in sqlFolderFiles)
         {
-            if (!filePath.EndsWith(".sql"))
+            if (!filePath.EndsWith(".sql", StringComparison.OrdinalIgnoreCase))
             {
                 continue;
             }
 
             var fileName = filePath.Replace(SqlMigrationsPath, "");
             var versionString = fileName.Replace(".sql", "");
-            if (!int.TryParse(versionString, out var version)) continue;
+            if (!int.TryParse(versionString, out var version))
+            {
+                continue;
+            }
+
             if (version <= appliedVersion)
             {
                 continue;
