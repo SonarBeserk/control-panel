@@ -30,6 +30,11 @@ builder.Services.AddOptions<AppSettings>()
 builder.Services.AddSingleton(resolver =>
     resolver.GetRequiredService<IOptions<AppSettings>>().Value);
 
+builder.Services.AddGrpcClient<Example.Example.ExampleClient>(o =>
+{
+    o.Address = new Uri("https://localhost:5001");
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
