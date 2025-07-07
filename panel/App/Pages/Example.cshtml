@@ -1,0 +1,24 @@
+﻿@page
+@model ExampleModel
+@{
+    ViewData["Title"] = "Example Tools";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Title"]</h1>
+
+    <form
+        id="greetingForm"
+        hx-post
+        hx-controller="Example"
+        hx-action="Post"
+    >
+        <div class="mb-3">
+            <label for="nameInput" class="form-label">Name</label>
+            <input type="text" asp-for="Name" class="form-control" id="nameInput" aria-describedby="nameHelp">
+            <div id="nameHelp" class="form-text">What name should we call you?</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
