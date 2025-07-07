@@ -11,8 +11,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace Example.Services;
+namespace Base.Services;
 
+using System.Globalization;
 using Microsoft.Data.Sqlite;
 
 public static class SqlService
@@ -57,7 +58,7 @@ public static class SqlService
         reader.Read();
         var rawVersion = reader.GetString(0);
         reader.Close();
-        return int.Parse(rawVersion);
+        return int.Parse(rawVersion, NumberStyles.Integer, new NumberFormatInfo());
     }
 
     private static void SetUserVersion(SqliteConnection conn, int version)
