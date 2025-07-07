@@ -32,7 +32,7 @@ builder.Services.AddSingleton(resolver =>
 
 builder.Services.AddGrpcClient<Example.Example.ExampleClient>(o =>
 {
-    o.Address = new Uri("https://localhost:5001");
+    o.Address = new Uri("http://localhost:5087");
 });
 
 var app = builder.Build();
