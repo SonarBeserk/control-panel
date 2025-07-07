@@ -39,6 +39,10 @@
       "files": [
         "htmx.min.js"
       ]
+    },
+    {
+      "library": "bootstrap-icons@1.13.1",
+      "destination": "App/wwwroot/lib/bootstrap-icons"
     }
   ]
 }
