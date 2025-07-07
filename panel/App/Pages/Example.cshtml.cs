@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace App.Pages;
 
+using Example;
 using Htmx;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -22,26 +23,45 @@ using Microsoft.AspNetCore.Mvc;
 public class ExampleModel : PageModel
 {
     private readonly ILogger<ExampleModel> _logger;
+    private readonly Example.ExampleClient _exampleClient;
 
     // Post Properties
     [BindProperty]
     public string? Name { get; set; }
 
-    public ExampleModel(ILogger<ExampleModel> logger)
+    public string? Greeting { get; set; }
+
+    public ExampleModel(ILogger<ExampleModel> logger, Example.ExampleClient exampleClient)
     {
         _logger = logger;
+        _exampleClient = exampleClient;
     }
 
-    public IActionResult OnPost()
+    public async Task<IActionResult> OnPost()
     {
         Name ??= "Unknown";
+        _logger.LogDebug("OnPost {name}", Name);
 
         if (!Request.IsHtmx())
         {
             return Page();
         }
 
-        _logger.LogInformation("OnPost {name}", this.Name);
+        var greeting = "Hello " + Name;
+
+        try
+        {
+            var response = await _exampleClient.SayHelloAsync(
+                new HelloRequest { Name = Name });
+            greeting = response.Message;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Something went wrong");
+        }
+
+        // Set the model property
+        Greeting = greeting;
 
         Response.Htmx(h =>
         {
