@@ -15,6 +15,7 @@ using Grpc.Core;
 
 namespace Example.Services;
 
+using System.Globalization;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Data.Sqlite;
 
@@ -54,7 +55,31 @@ public class ExampleService : Example.ExampleBase
 
     public override Task<GetStatsResponse> GetStats(GetStatsRequest request, ServerCallContext context)
     {
-        return Task.FromResult(new GetStatsResponse() { });
+        var command = _conn.CreateCommand();
+        command.CommandText = "SELECT name, sent_at FROM stats";
+
+        using var reader = command.ExecuteReader();
+
+        var stats = new GetStatsResponse();
+
+        var name = reader.GetOrdinal("name");
+        var sentAt = reader.GetOrdinal("sent_at");
+
+        while (reader.Read())
+        {
+            var time = reader.GetString(sentAt);
+            var date = DateTime.Parse(time, CultureInfo.CurrentCulture);
+
+            var stat = new GreetingStat
+            {
+                Name = reader.GetString(name),
+                Sent = Timestamp.FromDateTime(date.ToUniversalTime())
+            };
+
+            stats.Greetings.Add(stat);
+        }
+
+        return Task.FromResult(stats);
     }
 
     public override Task<Empty> UpdateNickname(UpdateNicknameRequest request, ServerCallContext context)
