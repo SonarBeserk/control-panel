@@ -28,6 +28,37 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
+        <!-- Update Nickname Tool -->
+        <div class="card p-1">
+            <div class="card-header">
+                <b>Update Nickname</b>
+            </div>
+            <form
+                id="nicknameForm"
+                hx-post
+                hx-swap="innerHtml"
+                hx-page="Example"
+                hx-page-handler="Nickname">
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col">
+                            <label for="updateNameInput" class="form-label">Name</label>
+                            <input type="text" asp-for="Name" class="form-control" id="updateNameInput"
+                                   aria-describedby="updateNameHelp">
+                            <div id="updateNameHelp" class="form-text">What is your name?</div>
+                        </div>
+                        <div class="col">
+                            <label for="updateNicknameInput" class="form-label">Nickname</label>
+                            <input type="text" asp-for="Nickname" class="form-control" id="updateNicknameInput"
+                                   aria-describedby="updateNicknameHelp"/>
+                            <div id="updateNicknameHelp" class="form-text">What is your nickname?</div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        <!-- Stats Graph -->
         <div class="card p-1">
             <div class="card-header">
                 <b>Greeter Stats</b>

@@ -29,6 +29,9 @@ public class ExampleModel : PageModel
     [BindProperty]
     public string? Name { get; set; }
 
+    [BindProperty]
+    public string? Nickname { get; set; }
+
     public string? Greeting { get; set; }
 
     public ExampleModel(ILogger<ExampleModel> logger, Example.ExampleClient exampleClient)
@@ -71,5 +74,24 @@ public class ExampleModel : PageModel
         });
 
         return Partial("Shared/_Greeting", this);
+    }
+
+    public async Task<IActionResult> OnPostNickname()
+    {
+        if (!Request.IsHtmx())
+        {
+            return Page();
+        }
+
+        try
+        {
+            await _exampleClient.UpdateNicknameAsync(new UpdateNicknameRequest { Name = Name, Nickname = Nickname });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Something went wrong");
+        }
+
+        return Content($"<h1>Nickname Updated</h1>", "text/html");
     }
 }
