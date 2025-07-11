@@ -15,19 +15,36 @@ using Grpc.Core;
 
 namespace Example.Services;
 
+using Microsoft.Data.Sqlite;
+
 public class ExampleService : Example.ExampleBase
 {
     private readonly ILogger<ExampleService> _logger;
-    public ExampleService(ILogger<ExampleService> logger)
+    private readonly SqliteConnection _conn;
+
+    public ExampleService(ILogger<ExampleService> logger, SqliteConnection conn)
     {
         _logger = logger;
+        _conn = conn;
     }
 
     public override Task<HelloResponse> SayHello(HelloRequest request, ServerCallContext context)
     {
-        return Task.FromResult(new HelloResponse()
+        var command = _conn.CreateCommand();
+        command.CommandText = @"SELECT naming.nickname FROM naming WHERE name = @name LIMIT 1";
+        command.Parameters.AddWithValue("@name", request.Name);
+
+        using var reader = command.ExecuteReader();
+        var nickname = request.Name;
+        if (reader.Read())
         {
-            Message = "Hello " + request.Name
+            nickname = reader.GetString(0);
+            _logger.LogInformation($"Found {nickname}", nickname);
+        }
+
+        return Task.FromResult(new HelloResponse
+        {
+            Message = "Hello " + nickname
         });
     }
 
