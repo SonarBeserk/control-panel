@@ -39,7 +39,7 @@ public class ExampleService : Example.ExampleBase
         if (reader.Read())
         {
             nickname = reader.GetString(0);
-            _logger.LogInformation($"Found {nickname}", nickname);
+            _logger.LogInformation("Found {Nickname}", nickname);
         }
 
         return Task.FromResult(new HelloResponse
