@@ -101,7 +101,8 @@ public class ExampleService : Example.ExampleBase
         try
         {
             var result = command.ExecuteNonQuery();
-            if (result != 0)
+            // Should be one row added
+            if (result != 1)
             {
                 throw new RpcException(new Status(StatusCode.Internal, "Failed to insert stat"));
             }
