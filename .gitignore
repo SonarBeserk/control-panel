@@ -142,3 +142,4 @@ http-client.private.env.json
 
 # Data Files
 **/*.db
+**/*.db-*
