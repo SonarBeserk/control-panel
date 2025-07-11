@@ -10,4 +10,4 @@ CREATE TABLE IF NOT EXISTS stats
     stat_id TEXT PRIMARY KEY NOT NULL,
     name    TEXT             NOT NULL,
     sent_at TEXT             NOT NULL
-)
+);
