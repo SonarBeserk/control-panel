@@ -65,7 +65,7 @@ public class ExampleService : Example.ExampleBase
         try
         {
             var result = command.ExecuteNonQuery();
-            if (result != 1)
+            if (result != 0)
             {
                 throw new RpcException(new Status(StatusCode.Internal, "Failed to update nickname"));
             }
