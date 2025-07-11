@@ -43,6 +43,9 @@ public class ExampleService : Example.ExampleBase
             _logger.LogInformation("Found {Nickname}", nickname);
         }
 
+        // Add stat for greeting
+        TrackGreeting(request.Name, null);
+
         return Task.FromResult(new HelloResponse
         {
             Message = "Hello " + nickname
@@ -76,5 +79,36 @@ public class ExampleService : Example.ExampleBase
         }
 
         return Task.FromResult(new Empty());
+    }
+
+    /// <summary>
+    /// Tracks a greeting and stores it in the database
+    /// </summary>
+    /// <param name="name">The name that was greeted</param>
+    /// <param name="start">The time the greeting was sent, defaults to <see cref="DateTime.Now"/> if not set</param>
+    /// <exception cref="RpcException">An error occured when saving the stat</exception>
+    public void TrackGreeting(string name, DateTime? start)
+    {
+        // Set start time if it is not provided
+        start ??= DateTime.Now;
+
+        var command =  _conn.CreateCommand();
+        command.CommandText = "INSERT INTO Stats (stat_id, name, sent_at) VALUES (@Id, @Name, @SentAt)";
+        command.Parameters.AddWithValue("@Id", Guid.NewGuid());
+        command.Parameters.AddWithValue("@Name", name);
+        command.Parameters.AddWithValue("@SentAt", start);
+
+        try
+        {
+            var result = command.ExecuteNonQuery();
+            if (result != 0)
+            {
+                throw new RpcException(new Status(StatusCode.Internal, "Failed to insert stat"));
+            }
+        }
+        catch (SqliteException e)
+        {
+            _logger.LogError(e, "Failed to track greeting");
+        }
     }
 }
