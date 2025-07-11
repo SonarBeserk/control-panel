@@ -15,6 +15,7 @@ using Grpc.Core;
 
 namespace Example.Services;
 
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.Data.Sqlite;
 
 public class ExampleService : Example.ExampleBase
@@ -51,5 +52,29 @@ public class ExampleService : Example.ExampleBase
     public override Task<GetStatsResponse> GetStats(GetStatsRequest request, ServerCallContext context)
     {
         return Task.FromResult(new GetStatsResponse() { });
+    }
+
+    public override Task<Empty> UpdateNickname(UpdateNicknameRequest request, ServerCallContext context)
+    {
+        var command = _conn.CreateCommand();
+        command.CommandText = "INSERT OR REPLACE INTO naming VALUES (@id, @name, @nickname);";
+        command.Parameters.AddWithValue("@id", Guid.NewGuid());
+        command.Parameters.AddWithValue("@name", request.Name);
+        command.Parameters.AddWithValue("@nickname", request.Nickname);
+
+        try
+        {
+            var result = command.ExecuteNonQuery();
+            if (result != 1)
+            {
+                throw new RpcException(new Status(StatusCode.Internal, "Failed to update nickname"));
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Failed to update nickname");
+        }
+
+        return Task.FromResult(new Empty());
     }
 }

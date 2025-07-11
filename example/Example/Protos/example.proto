@@ -3,6 +3,7 @@ syntax = "proto3";
 option csharp_namespace = "Example";
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 package example;
 
@@ -10,7 +11,10 @@ package example;
 service Example {
   // Sends a greeting
   rpc SayHello (HelloRequest) returns (HelloResponse);
+  // Lists statistics of requests that have come in
   rpc GetStats(GetStatsRequest) returns (GetStatsResponse);
+  // UpdateNickname sets the nickname used for a given name
+  rpc UpdateNickname(UpdateNicknameRequest) returns (google.protobuf.Empty);
 }
 
 // The request message containing the user's name.
@@ -35,4 +39,10 @@ message GetStatsResponse {
 message GreetingStat {
     string name = 1;
     google.protobuf.Timestamp sent = 2;
+}
+
+// The message contains a name and nickname pair
+message UpdateNicknameRequest {
+    string name = 1;
+    string nickname = 2;
 }
