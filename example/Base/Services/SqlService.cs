@@ -34,6 +34,9 @@ public static class SqlService
         var conn = new SqliteConnection(connectionString);
         conn.Open(); // Open long-running connection to save memory and io calls
 
+        // Enable Write Ahead Log for performance
+        EnableWriteAheadLog(conn);
+
         var userVersion = GetUserVersion(conn);
         Console.WriteLine($"Database Version: {userVersion}");
 
@@ -71,6 +74,17 @@ public static class SqlService
         var command = conn.CreateCommand();
         command.CommandText = "PRAGMA user_version = " + version + ";";
 
+        var resp = command.ExecuteNonQuery();
+        if (resp != 0)
+        {
+            throw new InvalidOperationException("Unable to update user version");
+        }
+    }
+
+    private static void EnableWriteAheadLog(SqliteConnection conn)
+    {
+        var command = conn.CreateCommand();
+        command.CommandText = "PRAGMA journal_mode = WAL";
         var resp = command.ExecuteNonQuery();
         if (resp != 0)
         {
