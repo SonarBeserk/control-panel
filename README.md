@@ -18,6 +18,19 @@ The control panel can be developed on any system and using any IDE that supports
 
 TODO
 
+#### Database Migrations
+
+The current database migrations system works for only small teams. It is simplified to only use a versioned variable that allows migrations to be run in order. This has the downside of requiring migrations to always be numbered correctly and run in order.
+
+A Sqlite file is created using the name provided in the appsettings file then the SqlService will run migrations when starting.
+
+To expand the size of the team that can develop the tool you want to switch to a timestamped individually tracked migration system. It needs to have at least these characteristics:
+
+- Migrations are created with a unique name with rough ordering (usually named with a timestamp + description)
+- A table to track each migration being applied to determine when migrations need to run or have been removed
+- Ideally a system to reject changes that change existing migrations
+- A process for bulk data changes too large to run in an set of alter statements
+
 ### Build From Source
 
 1. First verify you have all the [listed tooling installed](#tooling).
