@@ -32,7 +32,7 @@ public class ExampleService : Example.ExampleBase
     public override Task<HelloResponse> SayHello(HelloRequest request, ServerCallContext context)
     {
         var command = _conn.CreateCommand();
-        command.CommandText = @"SELECT naming.nickname FROM naming WHERE name = @name LIMIT 1";
+        command.CommandText = "SELECT naming.nickname FROM naming WHERE name = @name LIMIT 1";
         command.Parameters.AddWithValue("@name", request.Name);
 
         using var reader = command.ExecuteReader();
