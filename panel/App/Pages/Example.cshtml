@@ -8,20 +8,22 @@
     <h1 class="display-4">@ViewData["Title"]</h1>
 
     <div class="container-fluid">
+        <!-- Greeter Tool -->
         <div class="card p-1">
             <div class="card-header">
-                <b>Greeter Tool</b>
+                <b>Greeter</b>
             </div>
             <form
                 id="greetingForm"
                 hx-post
-                hx-controller="Example"
-                hx-action="Post"
-            >
+                hx-swap="innerHtml"
+                hx-page="Example"
+                hx-page-handler="Greeting">
                 <div class="mb-3">
-                    <label for="nameInput" class="form-label">Name</label>
-                    <input type="text" asp-for="Name" class="form-control" id="nameInput" aria-describedby="nameHelp">
-                    <div id="nameHelp" class="form-text">What name should we call you?</div>
+                    <label for="greeterNameInput" class="form-label">Name</label>
+                    <input type="text" asp-for="Name" class="form-control" id="greeterNameInput"
+                           aria-describedby="greeterNameHelp">
+                    <div id="greeterNameHelp" class="form-text">What is your name?</div>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

@@ -37,10 +37,10 @@ public class ExampleModel : PageModel
         _exampleClient = exampleClient;
     }
 
-    public async Task<IActionResult> OnPost()
+    public async Task<IActionResult> OnPostGreeting()
     {
         Name ??= "Unknown";
-        _logger.LogDebug("OnPost {name}", Name);
+        _logger.LogDebug("OnPost {Name}", Name);
 
         if (!Request.IsHtmx())
         {
