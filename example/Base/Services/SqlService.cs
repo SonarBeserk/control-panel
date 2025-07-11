@@ -69,7 +69,7 @@ public static class SqlService
         }
 
         var command = conn.CreateCommand();
-        command.CommandText = @"PRAGMA user_version = " + version + ";";
+        command.CommandText = "PRAGMA user_version = " + version + ";";
 
         var resp = command.ExecuteNonQuery();
         if (resp != 0)
